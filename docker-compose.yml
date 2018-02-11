@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  fbmessenger:
+    build: .
+    command: python -u manage.py runserver 0.0.0.0:8000
+    tty: true
+    ports:
+      - "8000"
+    labels:
+      - traefik.backend=fbmessenger
+      - traefik.frontend.rule=Host:xxx.example.com
+      - traefik.docker.network=proxy
+      - traefik.port=8000
+    networks:
+      - traefik_proxy
+
+networks:
+  traefik_proxy:
+    external: true
